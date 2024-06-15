@@ -1,2 +1,7 @@
-# Hands-Of-Ymir
-unity game project using hand detection
+# Hands Of Ymir
+
+An Unity3D game project using hand detection
+
+## Mediapipe
+
+
