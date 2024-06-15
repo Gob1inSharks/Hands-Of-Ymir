@@ -288,12 +288,12 @@ def cleanDisDataDict(hand_landmarks,width,height):
 
 def handCoordinates2D(hand_landmarks,width,height):
     return {
-         'Wrist'  : (hand_landmarks.landmark[mp_hands.HandLandmark.WRIST].x*width,                  hand_landmarks.landmark[mp_hands.HandLandmark.WRIST].y*height),
-         'Thumb'  : (hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].x*width,              hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].y*height),
-         'Index'  : (hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].x*width,       hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y*height),
-         'Middle' : (hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].x*width,      hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].y*height),
-         'Ring'   : (hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].x*width,        hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].y*height),
-         'Pinky'  : (hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].x*width,              hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].y*height)}
+         'Wrist'  : (round(hand_landmarks.landmark[mp_hands.HandLandmark.WRIST].x*width,2),                  round(hand_landmarks.landmark[mp_hands.HandLandmark.WRIST].y*height),2),
+         'Thumb'  : (round(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].x*width,2),              round(hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].y*height,2)),
+         'Index'  : (round(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].x*width,2),       round(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y*height),2),
+         'Middle' : (round(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].x*width,2),      round(hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].y*height),2),
+         'Ring'   : (round(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].x*width,2),        round(hand_landmarks.landmark[mp_hands.HandLandmark.RING_FINGER_TIP].y*height),2),
+         'Pinky'  : (round(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].x*width,2),              round(hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP].y*height),2)}
 
 
 def cleanSideData(hand_landmarks,width):
