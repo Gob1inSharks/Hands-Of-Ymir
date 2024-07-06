@@ -68,6 +68,7 @@
     <Compile Include="Assets/T-MQTT/scripts/MQTTController.cs" />
     <Compile Include="Assets/M2Mqtt/Session/MqttSession.cs" />
     <Compile Include="Assets/M2MqttUnity/Scripts/BrokerSettings.cs" />
+    <Compile Include="Assets/Blocks/MqttControlledBlock.cs" />
     <Compile Include="Assets/M2MqttUnity/Scripts/M2MqttUnityClient.cs" />
     <Compile Include="Assets/M2Mqtt/Internal/MsgPublishedInternalEvent.cs" />
     <Compile Include="Assets/M2Mqtt/Messages/MqttMsgSubscribe.cs" />
@@ -92,7 +93,6 @@
     <Compile Include="Assets/M2Mqtt/Utility/QueueExtension.cs" />
     <Compile Include="Assets/M2Mqtt/Messages/MqttMsgPublishEventArgs.cs" />
     <Compile Include="Assets/M2Mqtt/Internal/MsgInternalEvent.cs" />
-    <Compile Include="Assets/T-MQTT/scripts/blockController.cs" />
     <Compile Include="Assets/M2Mqtt/Exceptions/MqttClientException.cs" />
     <Compile Include="Assets/M2Mqtt/Messages/MqttMsgUnsuback.cs" />
     <Compile Include="Assets/M2Mqtt/Messages/MqttMsgSubscribeEventArgs.cs" />
