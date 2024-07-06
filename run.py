@@ -5,7 +5,7 @@ Purpose: to run the mediapipe hand detection script
     
 """
 
-from detection.cogniHand import handCoordinates2D
+from detection.cogniHand import IndexToThumbCoordinates3D
 
 import os
 import cv2
@@ -52,14 +52,13 @@ client.loop_start()
 #wait a while to make sure mqtt is open
 cv2.waitKey(2000)
 
-def sendMessage(finger,msg):
+def sendMessage(coordinates):
 
     #clean message
-    msg = msg[finger]
-    msg = str(msg[0])+','+str(msg[1])
+    message = str(coordinates[0]) + "," + str(coordinates[1])+','+str(coordinates[2])
 
     #publish message to topic
-    result = client.publish(PUBLISH_TOPIC, msg)
+    result = client.publish(PUBLISH_TOPIC, message)
 
     return result
 
@@ -98,10 +97,23 @@ def main():
                     results = hands.process(frame)
 
                     #mark frames as writeable for annotations
-                    frame1.flags.writeable = True
-                    frame1 = cv2.cvtColor(frame1,cv2.COLOR_RGB2BGR)
+                    frame.flags.writeable = True
+                    frame = cv2.cvtColor(frame,cv2.COLOR_RGB2BGR)
 
                     if results.multi_hand_landmarks:
+
+                        handNum = 0
+                        for hand_landmarks in results.multi_hand_landmarks:
+
+                            handNum += 1
+                            
+                            #input 1 as width,height for percentages
+                            cleanedCoordinates = IndexToThumbCoordinates3D(hand_landmarks,1,1)
+                            print(cleanedCoordinates) #here for debugging
+
+                            print(sendMessage(cleanedCoordinates)) #print for debugging
+                            cv2.waitKey(66)
+
                         #for hands detected
                         for hand_landmarks in results.multi_hand_landmarks:
                             #draw hand landmarks on image
@@ -112,25 +124,10 @@ def main():
                             mp_drawing_styles.get_default_hand_landmarks_style(),
                             mp_drawing_styles.get_default_hand_connections_style())
                     #show annotations
-                    cv2.imshow("screen", frame)
-
-                    #if mediapipe is successful
-                    if results.multi_hand_landmarks:
-
-                        #print('hand is found') #here for debugging
-
-                        handNum = 0
-                        for hand_landmarks in results.multi_hand_landmarks:
-
-                            handNum += 1
-                            
-                            #input 1 as width,height for percentages
-                            cleanedData = handCoordinates2D(hand_landmarks,1,1)
-
-                            sendMessage('Index',cleanedData)                        
+                    cv2.imshow("screen", frame)                  
 
                 #if esc key is pressed, break
-                if cv2.waitKey(100) == 27:
+                if cv2.waitKey(33) == 27:
                     CAM.release()
                     cv2.destroyAllWindows
                     break
