@@ -97,6 +97,23 @@ def main():
                     frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
                     results = hands.process(frame)
 
+                    #mark frames as writeable for annotations
+                    frame1.flags.writeable = True
+                    frame1 = cv2.cvtColor(frame1,cv2.COLOR_RGB2BGR)
+
+                    if results.multi_hand_landmarks:
+                        #for hands detected
+                        for hand_landmarks in results.multi_hand_landmarks:
+                            #draw hand landmarks on image
+                            mp_drawing.draw_landmarks(
+                            frame,
+                            hand_landmarks,
+                            mp_hands.HAND_CONNECTIONS,
+                            mp_drawing_styles.get_default_hand_landmarks_style(),
+                            mp_drawing_styles.get_default_hand_connections_style())
+                    #show annotations
+                    cv2.imshow("screen", frame)
+
                     #if mediapipe is successful
                     if results.multi_hand_landmarks:
 
