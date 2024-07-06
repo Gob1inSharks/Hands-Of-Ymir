@@ -5,7 +5,7 @@ Purpose: to run the mediapipe hand detection script
     
 """
 
-from code.cogniHand import handCoordinates2D
+from detection.cogniHand import handCoordinates2D
 
 import os
 import cv2
