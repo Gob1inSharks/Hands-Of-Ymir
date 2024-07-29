@@ -72,7 +72,7 @@ class Hands(threading.Thread):
     def run(self):
 
         self.capture.start()
-        self.client.start()
+        self.mqttClient.start()
 
         self.process()
 
@@ -87,14 +87,14 @@ class Hands(threading.Thread):
         self.coordinates = None
 
         self.mqttClient = MQTTClient(global_vars.BROKER,global_vars.PORT,global_vars.PUBLISH_TOPIC)
-        self.socketClient = ClientUDP(global_vars.IP,global_vars.PORT)
+        #self.socketClient = ClientUDP(global_vars.IP,global_vars.PORT)
         self.capture = Capture()
 
         self.save = save
 
     def process(self):
 
-        cv2.waitKey(5000)
+        cv2.waitKey(1000)
 
         with mp_hands.Hands(
             model_complexity         = global_vars.MODEL_COMPLEXITY,
@@ -103,9 +103,13 @@ class Hands(threading.Thread):
 
             while (not self.capture.isRunning):
                 print('waiting for capture to start')
-                cv2.waitKey(1000)
+                cv2.waitKey(100)
             print("beginning capture")
-
+            while (not self.mqttClient.connected):
+                print('waiting for mqtt to start')
+                cv2.waitKey(100)
+            print("beginning mqtt")
+            
             while self.capture.CAM.isOpened():
 
                 read_code = self.capture.read_code
@@ -142,7 +146,7 @@ class Hands(threading.Thread):
     def quit(self):
 
         self.capture.isRunning = False
-        self.client.disconnect()
+        self.mqttClient.disconnect()
         cv2.destroyAllWindows
 
         print("quitting")
@@ -178,7 +182,7 @@ class Hands(threading.Thread):
 
         message = str(message[0]) + "," + str(message[1]) + "," + str(message[2])
 
-        self.client.sendMessage(message)
+        self.mqttClient.sendMessage(message)
 
 def IndexToThumbCoordinates3D(hand_landmarks,width,height):
     """

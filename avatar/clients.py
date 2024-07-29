@@ -100,13 +100,16 @@ starts a mqtt thread that publishes to a topic
 """
 import paho.mqtt.client as mqtt
 import random
+import threading
 
-class MQTTClient():
+class MQTTClient(threading.Thread):
 
-    def start(self):
+    def run(self):
         self.connect_mqtt()
 
     def __init__(self, broker,port,publishTopic,clientID = f'python-mqtt-{random.randint(0, 1000)}') -> None:
+
+        threading.Thread.__init__(self)
 
         self.connected = False
 
@@ -146,11 +149,9 @@ class MQTTClient():
             else:
                 print("Failed to connect, return code %d\n", rc)
 
-        self.client = mqtt.Client(client_id=self.CLIENT_ID,
-                                  clean_session=False,
-                                  userdata=None)
+        self.client = mqtt.Client(client_id=self.CLIENT_ID)
         self.client.on_connect = on_connect
-        self.client.connect(self.BROKER, self.PORT,60)
+        self.client.connect(self.BROKER, self.PORT)
         self.client.loop_start()
 
         self.connected = True
